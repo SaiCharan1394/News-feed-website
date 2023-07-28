@@ -101,21 +101,85 @@
       crossorigin="anonymous"
     ></script>
     <script type="module">
-        import { getNewsFeed } from "./index.js";
-        console.log("requesting data");
-        let newsFeed;
-        getNewsFeed().then((data) => {
-          console.log(JSON.stringify(data));
-          newsFeed = data;
-          console.log("newsfeedvariable", newsFeed.items);
-          const carouselIndicators = document.querySelector('.carousel-indicators');
-          const carouselInner = document.querySelector('.carousel-inner');
-          newsFeed.items.forEach((element) => {
-           const image=document.createElement("img")
-           image.src=element.enclosure.link
-           image.alt=element.title
-           carouselItem.appendChild(image)
-          });
+      import { getNewsFeed } from "./index.js";
+      console.log("requesting data");
+      let newsFeed;
+      getNewsFeed().then((data) => {
+        console.log(JSON.stringify(data));
+        newsFeed = data;
+        console.log("newsfeedvariable", newsFeed.items);
+        const carouselIndicators = document.querySelector(
+          ".carousel-indicators"
+        );
+        const carouselInner = document.querySelector(".carousel-inner");
+        function createCarouselSlides() {
+          const carouselIndicators = document.querySelector(
+            ".carousel-indicators"
+          );
+          const carouselInner = document.querySelector(".carousel-inner");
+
+          // Loop through the JSON items and create carousel slides
+          for (let i = 0; i < newsFeed.items.length; i++) {
+            const item = newsFeed.items[i];
+
+            // Create indicator button
+            const indicatorButton = document.createElement("button");
+            indicatorButton.type = "button";
+            indicatorButton.setAttribute(
+              "data-bs-target",
+              "#carouselExampleCaptions"
+            );
+            indicatorButton.setAttribute("data-bs-slide-to", i.toString());
+            if (i === 0) {
+              indicatorButton.classList.add("active");
+            }
+            carouselIndicators.appendChild(indicatorButton);
+
+            // Create carousel item
+            const carouselItem = document.createElement("div");
+            carouselItem.classList.add("carousel-item");
+            if (i === 0) {
+              carouselItem.classList.add("active");
+            }
+
+            // Create image
+            const image = document.createElement("img");
+            image.src = item.enclosure.link;
+            image.classList.add("d-block", "w-100");
+            image.alt = item.title;
+            carouselItem.appendChild(image);
+
+            // Create carousel caption
+            const carouselCaption = document.createElement("div");
+            carouselCaption.classList.add(
+              "carousel-caption",
+              "d-none",
+              "d-md-block"
+            );
+
+            // Create title
+            const title = document.createElement("h5");
+            title.textContent = item.title;
+            carouselCaption.appendChild(title);
+
+            // Create description
+            const description = document.createElement("p");
+            description.textContent = item.description;
+            carouselCaption.appendChild(description);
+
+            carouselItem.appendChild(carouselCaption);
+
+            carouselInner.appendChild(carouselItem);
+          }
+        }
+        createCarouselSlides()
+        // newsFeed.items.forEach((element) => {
+
+        //   const image = document.createElement("img");
+        //   image.src = element.enclosure.link;
+        //   image.alt = element.title;
+        //   carouselInner.appendChild(image);
+        // });
       });
     </script>
   </body>

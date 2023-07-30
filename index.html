@@ -108,14 +108,10 @@
         console.log(JSON.stringify(data));
         newsFeed = data;
         console.log("newsfeedvariable", newsFeed.items);
-        const carouselIndicators = document.querySelector(
-          ".carousel-indicators"
-        );
+        const carouselIndicators = document.querySelector(".carousel-indicators");
         const carouselInner = document.querySelector(".carousel-inner");
         function createCarouselSlides() {
-          const carouselIndicators = document.querySelector(
-            ".carousel-indicators"
-          );
+          const carouselIndicators = document.querySelector(".carousel-indicators");
           const carouselInner = document.querySelector(".carousel-inner");
 
           // Loop through the JSON items and create carousel slides
